@@ -5,11 +5,13 @@ import urllib.request
 from src.utils.config import Config
 from src.services.conectionService import ConectionService;
 import vlc
+from src.utils.lcd import LCD
 
 
 class Player():
   def __init__(self):
     self.config = Config().getConfig()
+    self.lcd = LCD()
 
   def initPlayer(self):
 
@@ -44,6 +46,7 @@ class Player():
       return False
     
   def playerPointOfSale(self):
+    self.lcd.showIp()
     conection = ConectionService()
     response = conection.getNext(self.config)
     if(response['code'] == 200):
