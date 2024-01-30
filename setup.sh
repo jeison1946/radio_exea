@@ -1,5 +1,14 @@
 #! /bin/bash
 
+#check for root
+UID=$(id -u)
+if [ x$UID != x0 ] 
+then
+    #Beware of how you compose the command
+    printf -v cmd_str '%q ' "$0" "$@"
+    exec sudo su -c "$cmd_str"
+fi
+
 # Show errors
 function catch_errors() {
    echo "Error";
@@ -36,7 +45,6 @@ rc=$?
 if [[ $rc != 0 ]] ; then
     exit $rc
 fi
-sudo su
 
 echo "Copying files for automatic initialization of software..."
 cp $HOME_PI/radio_exea/scripts/player /etc/systemd/system/player.service
