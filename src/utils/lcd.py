@@ -17,7 +17,8 @@ class LCD:
         return 'Sin internet'
   def showIp(self):
     ip = self.getIp()
-    message = 'Sin internet'
     if ip:
-      message: ip
+      message = ip
+    else:
+      message = 'Sin internet'
     self.message.showMesssage(message)
