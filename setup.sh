@@ -15,7 +15,7 @@ fi
 
 # Global variables
 HOME_PI="/home/pi"
-cd $HOME_PI
+cd $HOME_PI/radio_exea
 
 # Verify that git works fine
 rc=$?
@@ -39,7 +39,7 @@ fi
 
 
 echo "Copying files for automatic initialization of software..."
-cp $HOME_PI/radio/scripts/player /etc/init.d/
+cp $HOME_PI/radio_exea/scripts/player /etc/init.d/
 
 # Verify command
 rc=$?
