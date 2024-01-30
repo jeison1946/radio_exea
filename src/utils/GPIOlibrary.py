@@ -54,10 +54,10 @@ class GPIOlibrary():
 
 
 
-    def __init__(self, pin_rs=25, pin_e=24, pins_db=[23, 17, 27, 22], GPIO = None):
+    def __init__(self, pin_rs=25, pin_e=24, pins_db=[23, 17, 27, 22]):
         # Emulate the old behavior of using RPi.GPIO if we haven't been given
         # an explicit GPIO interface to use        
-        self.GPIO = GPIO
+        self.GPIO = GPIO()
         self.pin_rs = pin_rs
         self.pin_e = pin_e
         self.pins_db = pins_db
