@@ -14,6 +14,6 @@ class LCD:
           if netifaces.AF_INET in addrs:
             return addrs[netifaces.AF_INET][0]['addr']
     except Exception as e:
-        return 'Error IP'
+        return 'Sin internet'
   def showIp(self):
     self.message.showMesssage(self.getIp())
