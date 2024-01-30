@@ -14,10 +14,11 @@ class Player():
     self.lcd = LCD()
 
   def initPlayer(self):
-    self.lcd.showIp()
+    
     if self.checkConection():
       self.playerPointOfSale()
     else:
+      self.lcd.showNotInternet()
       folder = glob.glob(os.path.join('./songs', '*.mp3'))
       if (folder):
         pygame.init()
@@ -46,6 +47,7 @@ class Player():
       return False
     
   def playerPointOfSale(self):
+    self.lcd.showIp()
     conection = ConectionService()
     response = conection.getNext(self.config)
     if(response['code'] == 200):

@@ -11,14 +11,18 @@ class LCD:
         interfaces = netifaces.interfaces()
         for iface in interfaces:
           addrs = netifaces.ifaddresses(iface)
-          if netifaces.AF_INET in addrs:
-            return addrs[netifaces.AF_INET][0]['addr']
+          ip = addrs.get(netifaces.AF_INET)
+          if ip and "addr" in ip[0]:
+            return ip[0]["addr"]
     except Exception as e:
-        return 'Sin internet'
+        return False
   def showIp(self):
     ip = self.getIp()
     if ip:
       message = ip
     else:
-      message = 'Sin internet'
+      message = 'Error detectando'
     self.message.showMesssage(message)
+
+  def showNotInternet(self):
+    self.message.showMesssage('Sin internet')
