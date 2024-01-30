@@ -10,13 +10,12 @@ class Message:
       from rich.console import Console
       return Console()
     else:
-      import Adafruit_CharLCD as LCD
+      from src.utils.GPIOlibrary import GPIOlibrary
       self.linux = False
-      return LCD.Adafruit_CharLCDPlate()
+      return GPIOlibrary()
   
   def showMesssage(self, message):
     if self.linux:
       self.channel.print(message, style="bold green")
     else:
-      self.channel.clear()
-      self.channel.message(message)
+      self.channel.message(message + "\n")
