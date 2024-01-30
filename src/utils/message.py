@@ -2,8 +2,8 @@ import platform
 
 class Message:
   def __init__(self):
-    self.channel = self.getChannel()
     self.linux = True
+    self.channel = self.getChannel()
   
   def getChannel(self):
     if platform.machine() == 'x86_64':
