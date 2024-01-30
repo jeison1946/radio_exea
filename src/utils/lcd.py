@@ -16,4 +16,8 @@ class LCD:
     except Exception as e:
         return 'Sin internet'
   def showIp(self):
-    self.message.showMesssage(self.getIp())
+    ip = self.getIp()
+    message = 'Sin internet'
+    if ip:
+      message: ip
+    self.message.showMesssage(message)
