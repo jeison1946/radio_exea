@@ -19,7 +19,7 @@ case "$1" in
 
         # Run streaming
         echo 'Loading streaming player...'
-        /home/pi/radio_exea/src/main.py & > /dev/null
+        /home/pi/radio_exea/main.py & > /dev/null
         ;;
     stop)
         echo "Stopping Exea Media Player..."
