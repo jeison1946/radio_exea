@@ -1,12 +1,11 @@
 [Unit]
-Description=Exea Media Player Service
+Description=Player Service
+After=multi-user.target
 
 [Service]
-ExecStart= python3 /home/pi/radio_exea/main.py
+Type=simple
 Restart=always
-User=pi
-Group=pi
-Environment=PYTHONUNBUFFERED=1
+ExecStart=/usr/bin/python3 /home/pi/radio_exea/main.py
 
 [Install]
 WantedBy=multi-user.target
