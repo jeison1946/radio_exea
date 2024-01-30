@@ -36,7 +36,7 @@ echo "Updating system..."
 apt-get -y update
 
 echo "Installing some tools..."
-apt-get install -y python3-vlc python3-dev python3-setuptools python3-pip
+apt-get install -y python3-vlc python3-dev python3-setuptools python3-pip i2c-tools
 
 echo "Installing dependencies"
 pip3 install -r requirements.txt
