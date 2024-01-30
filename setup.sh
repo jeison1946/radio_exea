@@ -36,10 +36,10 @@ rc=$?
 if [[ $rc != 0 ]] ; then
     exit $rc
 fi
-
+sudo su
 
 echo "Copying files for automatic initialization of software..."
-sudo cp $HOME_PI/radio_exea/scripts/player /etc/systemd/system/player
+cp $HOME_PI/radio_exea/scripts/player /etc/systemd/system/player.service
 
 # Verify command
 rc=$?
@@ -48,9 +48,9 @@ if [[ $rc != 0 ]] ; then
 fi
 
 # Permisions of the file
-sudo systemctl daemon-reload
-sudo systemctl start
-sudo systemctl enable
+systemctl daemon-reload
+systemctl enable player.service
+systemctl start player.service
 
 chown -Rf pi $HOME_PI/*
 
