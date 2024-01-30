@@ -39,7 +39,7 @@ fi
 
 
 echo "Copying files for automatic initialization of software..."
-cp $HOME_PI/radio_exea/scripts/player /etc/init.d/
+cp $HOME_PI/radio_exea/scripts/player /etc/systemd/system/player
 
 # Verify command
 rc=$?
@@ -48,8 +48,9 @@ if [[ $rc != 0 ]] ; then
 fi
 
 # Permisions of the file
-chmod +x /etc/init.d/player
-update-rc.d player defaults
+sudo systemctl daemon-reload
+sudo systemctl start
+sudo systemctl enable
 
 chown -Rf pi $HOME_PI/*
 
