@@ -14,7 +14,7 @@ class Player():
     self.lcd = LCD()
 
   def initPlayer(self):
-
+    self.lcd.showIp()
     if self.checkConection():
       self.playerPointOfSale()
     else:
@@ -46,7 +46,6 @@ class Player():
       return False
     
   def playerPointOfSale(self):
-    self.lcd.showIp()
     conection = ConectionService()
     response = conection.getNext(self.config)
     if(response['code'] == 200):
