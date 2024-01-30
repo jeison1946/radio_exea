@@ -4,7 +4,8 @@ After=multi-user.target
 
 [Service]
 Type=simple
-Restart=always
+WorkingDirectory=/home/pi/radio_exea/
+User=pi
 ExecStart=/usr/bin/python3 /home/pi/radio_exea/main.py
 
 [Install]
