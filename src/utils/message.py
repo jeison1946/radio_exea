@@ -6,7 +6,7 @@ class Message:
     self.linux = True
   
   def getChannel(self):
-    if platform.system() == 'Linux':
+    if platform.machine() == 'x86_64':
       from rich.console import Console
       return Console()
     else:
