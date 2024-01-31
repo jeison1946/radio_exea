@@ -1,7 +1,7 @@
 import pygame
 import glob
 import os
-import urllib.request
+import requests
 from src.utils.config import Config
 from src.services.conectionService import ConectionService;
 import vlc
@@ -41,10 +41,12 @@ class Player():
   
   def checkConection(self):
     try:
-      urllib.request.urlopen('http://www.google.com', timeout=1)
-      return True
-    except urllib.error.URLError:
+      response = requests.head("http://www.google.com", 5)
+      if response.status_code == 200:
+        return True
+    except requests.ConnectionError:
       return False
+    return False
     
   def playerPointOfSale(self):
     self.lcd.showIp()
