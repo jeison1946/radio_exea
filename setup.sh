@@ -39,7 +39,7 @@ apt-get -y update
 echo "Installing some tools..."
 apt-get install -y curl libsdl2-mixer-2.0-0 libsdl2-image-2.0-0 libsdl2-2.0-0
 apt-get install -y python3-vlc python3-dev python3-setuptools python3-pip i2c-tools
-sudo apt-get install python3-pygame
+apt-get install -y python3-pygame
 
 echo "Installing dependencies"
 pip3 install -r requirements.txt
