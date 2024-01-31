@@ -25,7 +25,6 @@ fi
 # Global variables
 HOME_PI="/home/pi"
 cd $HOME_PI/radio_exea
-chmod -Rf 777 $HOME_PI/radio_exea
 
 # Verify that git works fine
 rc=$?
