@@ -12,18 +12,18 @@ class Player():
   def __init__(self):
     self.config = Config().getConfig()
     self.lcd = LCD()
+    pygame.init()
+    pygame.mixer.init()
+    pygame.mixer.music.set_endevent(pygame.USEREVENT)
 
   def initPlayer(self):
-    
     if self.checkConection():
       self.playerPointOfSale()
     else:
       self.lcd.showNotInternet()
       folder = glob.glob(os.path.join('./songs', '*.mp3'))
       if (folder):
-        pygame.init()
-        pygame.mixer.init()
-        pygame.mixer.music.set_endevent(pygame.USEREVENT)
+        
         for file in folder:
           pygame.mixer.music.load(file)
           pygame.mixer.music.play()
