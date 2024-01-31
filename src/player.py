@@ -41,7 +41,7 @@ class Player():
   
   def checkConection(self):
     try:
-      response = requests.head("http://www.google.com", 5)
+      response = requests.head("https://www.google.com", timeout=5)
       if response.status_code == 200:
         return True
     except requests.ConnectionError:
