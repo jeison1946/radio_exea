@@ -58,6 +58,23 @@ if [[ $rc != 0 ]] ; then
     exit $rc
 fi
 
+chmod ugo+x $HOME_PI/radio_exea/scripts/check_and_restart.sh
+
+# Verificar si ya existe el crontab
+if crontab -l &>/dev/null; then
+    # Agregar la línea al crontab solo si no existe
+    if ! crontab -l | grep -q "$HOME_PI/radio_exea/scripts/check_and_restart.sh"; then
+        echo "* * * * * $HOME_PI/radio_exea/scripts/check_and_restart.sh" | crontab -
+        echo "Configuración del crontab completada."
+    else
+        echo "La línea ya existe en el crontab. No se hizo ningún cambio."
+    fi
+else
+    # Si no hay crontab existente, crear uno nuevo
+    echo "* * * * * $HOME_PI/radio_exea/scripts/check_and_restart.sh" | crontab -
+    echo "Crontab creado y configurado."
+fi
+
 # Permisions of the file
 systemctl daemon-reload
 systemctl enable player.service
