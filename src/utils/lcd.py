@@ -1,4 +1,4 @@
-import netifaces
+import socket
 from src.utils.message import Message
 
 class LCD:
@@ -8,21 +8,16 @@ class LCD:
   @staticmethod
   def getIp():
     try:
-      interfaces = [interface for interface in netifaces.interfaces(
-      ) if interface.startswith("eth")]
-
-      for interface in interfaces:
-        addrs = netifaces.ifaddresses(interface)
-        ip = addrs.get(netifaces.AF_INET)
-        print(ip)
-        if ip and "addr" in ip[0]:
-            return "IP: " + ip[0]["addr"]
-        return False
+      s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+      s.connect(("8.8.8.8", 80))
+      ip_address = s.getsockname()[0]
+      s.close()
+      return ip_address
     except Exception as e:
         return False
   def showIp(self):
     ip = self.getIp()
-    if not ip:
+    if ip:
       message = ip
     else:
       message = 'Error detectando'

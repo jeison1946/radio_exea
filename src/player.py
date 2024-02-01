@@ -23,8 +23,11 @@ class Player():
       self.lcd.showNotInternet()
       folder = glob.glob(os.path.join('./songs', '*.mp3'))
       if (folder):
-        
+        player: vlc.MediaPlayer = vlc.MediaPlayer()
         for file in folder:
+          """ pygame.init()
+          pygame.mixer.init()
+          pygame.mixer.music.set_endevent(pygame.USEREVENT)
           pygame.mixer.music.load(file)
           pygame.mixer.music.play()
           finish = False
@@ -34,8 +37,24 @@ class Player():
                   finish = True
                   if self.checkConection():
                     return self.playerPointOfSale()
+          
         pygame.mixer.music.set_endevent(0)
-        self.initPlayer()
+        self.initPlayer() """
+          media = vlc.Media(file)
+          player.set_media(media)
+          try:
+            player.play()
+          except Exception:
+            print('Error')
+
+          while True:
+            if player.get_state() == vlc.State.Ended:
+              if self.checkConection():
+                return self.playerPointOfSale()
+              break
+          if file == folder[-1]:
+            self.initPlayer()
+
       else:
         print("Carpeta vacia")
   
