@@ -1,5 +1,5 @@
 # Verificar el estado del servicio
-if sudo systemctl is-active player.service | grep -q 'inactive'; then
+if [ "$(sudo systemctl is-active player.service)" == 'failed' ]; then
     # El servicio está pausado, iniciarlo
     sudo systemctl start player.service
 else
