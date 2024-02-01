@@ -18,4 +18,5 @@ class Message:
     if self.linux:
       self.channel.print(message, style="bold green")
     else:
+      self.channel.clear()
       self.channel.message(message + "\n")
