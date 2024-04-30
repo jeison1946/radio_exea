@@ -52,12 +52,12 @@ class Player():
     response = conection.getNext(self.config)
     if(response['code'] == 200):
       player: vlc.MediaPlayer = vlc.MediaPlayer()
-      song = response['payload']['song']
+      song = response['song']
       media = vlc.Media(song['url'])
       player.set_media(media)
       try:
         player.play()
-        conection.logSong(response['payload'], self.config)
+        conection.logSong(response, self.config)
       except Exception:
         print('Error')
 
