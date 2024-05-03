@@ -25,3 +25,6 @@ class LCD:
 
   def showNotInternet(self):
     self.message.showMesssage('Sin internet')
+  
+  def showNotRules(self):
+    self.message.showMesssage('Problems Rules')

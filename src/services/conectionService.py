@@ -1,6 +1,6 @@
 from requests import get, post
 from json import loads, dumps
-from base64 import b64encode, b64decode
+from base64 import b64encode
 
 class ConectionService:
 
@@ -20,9 +20,9 @@ class ConectionService:
     fromObject = {
       "title": song['song']['title'],
       "author": song['song']['artist'],
-      "song_id": song['song']['id'],
-      "point_of_sale": config['pos'],
-      "rule_id": song['ruleId'],
+      "song_id": int(song['song']['id']),
+      "point_of_sale": int(config['pos']),
+      "rule_id": int(song['ruleId']),
       "name_rule": song['name']
     }
     endpoint = config['api'] + "/rules";
