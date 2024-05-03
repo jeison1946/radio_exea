@@ -25,21 +25,6 @@ class Player():
       if (folder):
         player: vlc.MediaPlayer = vlc.MediaPlayer()
         for file in folder:
-          """ pygame.init()
-          pygame.mixer.init()
-          pygame.mixer.music.set_endevent(pygame.USEREVENT)
-          pygame.mixer.music.load(file)
-          pygame.mixer.music.play()
-          finish = False
-          while not finish:
-            for event in pygame.event.get():
-              if event.type == pygame.USEREVENT:
-                  finish = True
-                  if self.checkConection():
-                    return self.playerPointOfSale()
-          
-        pygame.mixer.music.set_endevent(0)
-        self.initPlayer() """
           media = vlc.Media(file)
           player.set_media(media)
           try:
