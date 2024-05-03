@@ -3,3 +3,4 @@ python-vlc
 Adafruit-CharLCD
 rich
 requests
+RPi.GPIO
