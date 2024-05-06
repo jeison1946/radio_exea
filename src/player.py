@@ -54,22 +54,21 @@ class Player():
     
   def playerPointOfSale(self):
     self.lcd.showIp()
-    conection = ConectionService()
-    response = conection.getNext(self.config)
-    if(response['code'] == 200):
-      player: vlc.MediaPlayer = vlc.MediaPlayer()
-      song = response['response']['song']
-      media = vlc.Media(song['url'])
-      player.set_media(media)
-      try:
+    try:
+      conection = ConectionService()
+      response = conection.getNext(self.config)
+      if(response['code'] == 200):
+        player: vlc.MediaPlayer = vlc.MediaPlayer()
+        song = response['response']['song']
+        media = vlc.Media(song['url'])
+        player.set_media(media)
         player.play()
         conection.logSong(response['response'], self.config)
-      except Exception:
-        print('Error')
-
-      while True:
-        state = player.get_state()
-        if state == vlc.State.Ended:
-          self.initPlayer()
-    else:
-      self.lcd.showNotRules()
+        while True:
+          state = player.get_state()
+          if state == vlc.State.Ended:
+            self.initPlayer()
+      else:
+        self.lcd.showMessageCustom('Not Rules')
+    except Exception:
+        self.lcd.showMessageCustom('Conection error api')
