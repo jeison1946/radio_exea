@@ -20,28 +20,7 @@ class Player():
     if self.checkConection():
       self.playerPointOfSale()
     else:
-      self.lcd.showNotInternet()
-      folder = glob.glob(os.path.join('./songs', '*.mp3'))
-      if (folder):
-        player: vlc.MediaPlayer = vlc.MediaPlayer()
-        for file in folder:
-          media = vlc.Media(file)
-          player.set_media(media)
-          try:
-            player.play()
-          except Exception:
-            print('Error')
-
-          while True:
-            if player.get_state() == vlc.State.Ended:
-              if self.checkConection():
-                return self.playerPointOfSale()
-              break
-          if file == folder[-1]:
-            self.initPlayer()
-
-      else:
-        print("Carpeta vacia")
+      self.backupSong()
   
   def checkConection(self):
     try:
@@ -51,6 +30,28 @@ class Player():
     except requests.ConnectionError:
       return False
     return False
+  
+  def backupSong(self):
+    folder = glob.glob(os.path.join('./songs', '*.mp3'))
+    if (folder):
+      player: vlc.MediaPlayer = vlc.MediaPlayer()
+      for file in folder:
+        media = vlc.Media(file)
+        player.set_media(media)
+        try:
+          player.play()
+        except Exception:
+          print('Error')
+
+        while True:
+          if player.get_state() == vlc.State.Ended:
+            if self.checkConection():
+              return self.playerPointOfSale()
+            break
+        if file == folder[-1]:
+          self.initPlayer()
+    else:
+      print("Carpeta vacia")
     
   def playerPointOfSale(self):
     self.lcd.showIp()
@@ -69,6 +70,8 @@ class Player():
           if state == vlc.State.Ended:
             self.initPlayer()
       else:
-        self.lcd.showMessageCustom('Not Rules')
+        self.lcd.showMessageCustom('Backup - Rules Error')
+        self.backupSong()
     except Exception:
-        self.lcd.showMessageCustom('Conection error api')
+        self.lcd.showMessageCustom('Backup - Url Endpoint Error')
+        self.backupSong()
