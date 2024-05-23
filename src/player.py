@@ -2,6 +2,7 @@ import pygame
 import glob
 import os
 import requests
+import random
 from src.utils.config import Config
 from src.services.conectionService import ConectionService;
 import vlc
@@ -33,6 +34,7 @@ class Player():
   
   def backupSong(self):
     folder = glob.glob(os.path.join('./songs', '*.mp3'))
+    random.shuffle(folder)
     if (folder):
       player: vlc.MediaPlayer = vlc.MediaPlayer()
       for file in folder:
@@ -51,7 +53,7 @@ class Player():
         if file == folder[-1]:
           self.initPlayer()
     else:
-      print("Carpeta vacia")
+      self.lcd.showMessageCustom('Carpeta Backup Vacia')
     
   def playerPointOfSale(self):
     self.lcd.showIp()
