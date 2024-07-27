@@ -12,5 +12,6 @@ class Config:
        'api': config.get('PLAYER', 'API_PLAYER'),
        'user': config.get('PLAYER', 'USER_PLAYER'),
        'pos': config.get('PLAYER', 'POS_PLAYER'),
+       'cms': config.get('PLAYER', 'API_CMS'),
     }
     return data

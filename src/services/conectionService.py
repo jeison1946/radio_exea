@@ -33,3 +33,15 @@ class ConectionService:
     }
     jsonResponse = post(endpoint, data=dumps(fromObject), headers = Headers)
     return jsonResponse
+  
+  def songByRule(self, id, config):
+    user = b64encode(config['user'].encode("ascii"))
+    endpoint = config['cms'] + "/player/song/" + id;
+    
+    Headers = { 
+      "Content-Type" : "application/json",
+      "X-USER-TOKEN" : user
+    }
+    jsonResponse = get(endpoint, headers = Headers)
+    response = loads(jsonResponse.text)
+    return response
