@@ -4,3 +4,4 @@ Adafruit-CharLCD
 rich
 requests
 RPi.GPIO
+apscheduler
