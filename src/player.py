@@ -8,7 +8,7 @@ from src.services.conectionService import ConectionService;
 import vlc
 from src.utils.lcd import LCD
 from datetime import datetime
-from apscheduler.schedulers.blocking import BlockingScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
 
 
 class Player():
@@ -18,7 +18,7 @@ class Player():
     pygame.init()
     pygame.mixer.init()
     pygame.mixer.music.set_endevent(pygame.USEREVENT)
-    self.scheduler = BlockingScheduler()
+    self.scheduler = BackgroundScheduler()
 
   #Inicialización de player 
   def initPlayer(self):
@@ -71,12 +71,14 @@ class Player():
       if(response['code'] == 200):
         if (response['response']['rules_hours']):
           self.rulesByHours(response['response']['rules_hours'])
+
         player: vlc.MediaPlayer = vlc.MediaPlayer()
         song = response['response']['song']
         media = vlc.Media(song['url'])
         player.set_media(media)
         player.play()
         conection.logSong(response['response'], self.config)
+        self.lcd.showMessageCustom("Sonando:" + song['title'] )
         while True:
           state = player.get_state()
           if state == vlc.State.Ended:
@@ -93,12 +95,12 @@ class Player():
     for rule in rules:
       if (rules[rule]):
         for hour in rules[rule]['hours']:
-          self.songByTime(rules[rule])
           target_time = datetime.fromtimestamp(hour / 1000.0)
           job_id = f"job_{hour}"
           if job_id not in existing_jobs:
             self.scheduler.add_job(self.songByTime, 'date', run_date=target_time, args=[rules[rule]], id=job_id)
     self.scheduler.start()
+    return True
 
   def songByTime(self, rule):
     conection = ConectionService()
@@ -111,6 +113,7 @@ class Player():
     response['response']['ruleId'] = rule['id']
     response['response']['name'] = rule['name']
     conection.logSong(response['response'], self.config)
+    self.lcd.showMessageCustom("Sonando:" + song['title'] )
     while True:
       state = player.get_state()
       if state == vlc.State.Ended:
