@@ -32,7 +32,8 @@ class ConectionService:
       "X-USER-TOKEN" : user
     }
     jsonResponse = post(endpoint, data=dumps(fromObject), headers = Headers)
-    return jsonResponse
+    response = loads(jsonResponse.text)
+    return response
   
   def songByRule(self, id, config):
     user = b64encode(config['user'].encode("ascii"))
