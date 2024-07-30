@@ -21,7 +21,7 @@ class Message:
     if self.linux:
       self.channel.print(message, style="bold green")
     else:
-      truncated_message = self.truncateMessage(message, max_length)
+      truncated_message = self.truncateMessage(message, 13)
       if self.current_row >= self.max_rows:
           self.current_row = 0
           self.channel.clear()
