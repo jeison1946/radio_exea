@@ -24,6 +24,6 @@ class Message:
       if self.current_row >= self.max_rows:
         self.current_row = 0
         self.channel.clear()
-      self.channel.set_cursor(0, self.current_row)
+      self.channel.setCursor(0, self.current_row)
       self.channel.message(message + "\n")
       self.current_row += 1
