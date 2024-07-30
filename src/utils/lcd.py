@@ -21,10 +21,10 @@ class LCD:
       message = ip
     else:
       message = 'Error detectando'
-    self.message.showMesssage(message)
+    self.message.showMessage(message)
 
   def showNotInternet(self):
-    self.message.showMesssage('Sin internet')
+    self.message.showMessage('Sin internet')
   
   def showMessageCustom(self, message):
-    self.message.showMesssage(message)
+    self.message.showMessage(message)
