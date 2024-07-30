@@ -78,7 +78,7 @@ class Player():
         player.set_media(media)
         player.play()
         conection.logSong(response['response'], self.config)
-        self.lcd.showMessageCustom("Sonando:" + song['title'] )
+        self.lcd.showMessageCustom("Song:" + song['title'] )
         while True:
           state = player.get_state()
           if state == vlc.State.Ended:
@@ -113,7 +113,7 @@ class Player():
     response['response']['ruleId'] = rule['id']
     response['response']['name'] = rule['name']
     conection.logSong(response['response'], self.config)
-    self.lcd.showMessageCustom("Sonando:" + song['title'] )
+    self.lcd.showMessageCustom("Song:" + song['title'] )
     while True:
       state = player.get_state()
       if state == vlc.State.Ended:
