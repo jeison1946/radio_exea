@@ -19,6 +19,7 @@ class Player():
     pygame.mixer.init()
     pygame.mixer.music.set_endevent(pygame.USEREVENT)
     self.scheduler = BackgroundScheduler()
+    self.player: vlc.MediaPlayer = vlc.MediaPlayer()
 
   #Inicialización de player 
   def initPlayer(self):
@@ -43,17 +44,16 @@ class Player():
     folder = glob.glob(os.path.join('./songs', '*.mp3'))
     random.shuffle(folder)
     if (folder):
-      player: vlc.MediaPlayer = vlc.MediaPlayer()
       for file in folder:
         media = vlc.Media(file)
-        player.set_media(media)
+        self.player.set_media(media)
         try:
-          player.play()
+          self.player.play()
         except Exception:
           print('Error')
 
         while True:
-          if player.get_state() == vlc.State.Ended:
+          if self.player.get_state() == vlc.State.Ended:
             if self.checkConection():
               return self.playerPointOfSale()
             break
@@ -71,16 +71,15 @@ class Player():
       if(response['code'] == 200):
         if (response['response']['rules_hours']):
           self.rulesByHours(response['response']['rules_hours'])
-
-        player: vlc.MediaPlayer = vlc.MediaPlayer()
+        self.player.stop()
         song = response['response']['song']
         media = vlc.Media(song['url'])
-        player.set_media(media)
-        player.play()
+        self.player.set_media(media)
+        self.player.play()
         conection.logSong(response['response'], self.config)
-        self.lcd.showMessageCustom("Sonando:" + song['title'] )
+        self.lcd.showMessageCustom("Song:" + song['title'] )
         while True:
-          state = player.get_state()
+          state = self.player.get_state()
           if state == vlc.State.Ended:
             self.initPlayer()
       else:
@@ -99,23 +98,25 @@ class Player():
           job_id = f"job_{hour}"
           if job_id not in existing_jobs:
             self.scheduler.add_job(self.songByTime, 'date', run_date=target_time, args=[rules[rule]], id=job_id)
-    self.scheduler.start()
+    if (self.scheduler.running == False):
+      self.scheduler.start()
     return True
 
   def songByTime(self, rule):
     conection = ConectionService()
     response = conection.songByRule(rule['id'], self.config)
-    player: vlc.MediaPlayer = vlc.MediaPlayer()
+    self.player.stop()
     song = response['response']['song']
     media = vlc.Media(song['url'])
-    player.set_media(media)
-    player.play()
+    self.player.set_media(media)
+    self.player.play()
     response['response']['ruleId'] = rule['id']
     response['response']['name'] = rule['name']
     conection.logSong(response['response'], self.config)
-    self.lcd.showMessageCustom("Sonando:" + song['title'] )
+    
+    self.lcd.showMessageCustom("Song:" + song['title'] )
     while True:
-      state = player.get_state()
+      state = self.player.get_state()
       if state == vlc.State.Ended:
         self.initPlayer()
     

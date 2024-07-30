@@ -21,9 +21,16 @@ class Message:
     if self.linux:
       self.channel.print(message, style="bold green")
     else:
+      truncated_message = self.truncateMessage(message, 16)
       if self.current_row >= self.max_rows:
-        self.current_row = 0
-        self.channel.clear()
-      self.channel.set_cursor(0, self.current_row)
-      self.channel.message(message + "\n")
+          self.current_row = 0
+          self.channel.clear()
+      self.channel.begin(1, 2)
+      self.channel.setCursor(0, self.current_row)
+      self.channel.message(truncated_message + "\n")
       self.current_row += 1
+  
+  def truncateMessage(self, message, max_length):
+    if len(message) > max_length:
+        return message[:max_length - 3] + '...'
+    return message

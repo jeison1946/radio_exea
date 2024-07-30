@@ -10,6 +10,7 @@ User=pi
 ExecStart=/usr/bin/python3 /home/pi/radio_exea/main.py
 Restart=on-failure
 RestartSec=5
+TimeoutStopSec=5
 StandardOutput=journal
 StandardError=journal
 
