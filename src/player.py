@@ -85,24 +85,23 @@ class Player():
       else:
         self.lcd.showMessageCustom('Backup - Rules Error')
         self.backupSong()
-    except Exception:
-        self.lcd.showMessageCustom('Backup - Url Endpoint Error')
+    except Exception as e:
         self.backupSong()
 
   def rulesByHours(self, rules):
     existing_jobs = {job.id for job in self.scheduler.get_jobs()}
     for rule in rules:
       if (rules[rule]):
-        for hour in rules[rule]['hours']:
+        for index, hour in enumerate(rules[rule]['hours']):
           target_time = datetime.fromtimestamp(hour / 1000.0)
-          job_id = f"job_{hour}"
+          job_id = f"job_{rule}_{index}"
           if job_id not in existing_jobs:
-            self.scheduler.add_job(self.songByTime, 'date', run_date=target_time, args=[rules[rule]], id=job_id)
+            self.scheduler.add_job(self.songByTime, 'date', run_date=target_time, args=[rules[rule], rule], id=job_id)
     if (self.scheduler.running == False):
       self.scheduler.start()
     return True
 
-  def songByTime(self, rule):
+  def songByTime(self, rule, id):
     conection = ConectionService()
     response = conection.songByRule(rule['id'], self.config)
     self.player.stop()
@@ -110,7 +109,7 @@ class Player():
     media = vlc.Media(song['url'])
     self.player.set_media(media)
     self.player.play()
-    response['response']['ruleId'] = rule['id']
+    response['response']['ruleId'] = id
     response['response']['name'] = rule['name']
     conection.logSong(response['response'], self.config)
     
@@ -118,5 +117,5 @@ class Player():
     while True:
       state = self.player.get_state()
       if state == vlc.State.Ended:
-        self.initPlayer()
+        """ self.initPlayer() """
     
