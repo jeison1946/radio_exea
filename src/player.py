@@ -95,8 +95,9 @@ class Player():
         for index, hour in enumerate(rules[rule]['hours']):
           target_time = datetime.fromtimestamp(hour / 1000.0)
           job_id = f"job_{rule}_{index}"
-          if job_id not in existing_jobs:
-            self.scheduler.add_job(self.songByTime, 'date', run_date=target_time, args=[rules[rule], rule], id=job_id)
+          if self.scheduler.get_job(job_id):
+            self.scheduler.remove_job(job_id)
+          self.scheduler.add_job(self.songByTime, 'date', run_date=target_time, args=[rules[rule], rule], id=job_id)
     if (self.scheduler.running == False):
       self.scheduler.start()
     return True
